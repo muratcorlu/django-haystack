@@ -1,4 +1,3 @@
-import logging
 import operator
 import warnings
 from haystack import connections, connection_router
@@ -6,6 +5,7 @@ from haystack.backends import SQ
 from haystack.constants import REPR_OUTPUT_SIZE, ITERATOR_LOAD_PER_QUERY, DEFAULT_OPERATOR
 from haystack.exceptions import NotHandled
 from haystack.inputs import Raw, Clean, AutoQuery
+from haystack.utils import log as logging
 
 
 class SearchQuerySet(object):
@@ -269,15 +269,13 @@ class SearchQuerySet(object):
         else:
             return self._result_cache[start]
 
-
     # Methods that return a SearchQuerySet.
-
     def all(self):
         """Returns all results for the query."""
         return self._clone()
 
     def none(self):
-        """Returns all results for the query."""
+        """Returns an empty result list for the query."""
         return self._clone(klass=EmptySearchQuerySet)
 
     def filter(self, *args, **kwargs):
